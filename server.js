@@ -19,6 +19,7 @@ import friendreqRoutes from './routes/friendreqRoutes.js';
 import myprofileRoutes from './routes/myprofileRoutes.js';
 import closecircleRoutes from './routes/closecircleRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
+import earlyAccessRoutes from './routes/earlyAccessRoutes.js';
 
 dotenv.config();
 
@@ -29,9 +30,19 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+const allowedOrigins = process.env.CORS_URLS?.split(',').map(origin => origin.trim());
+
 app.use(cors({
-  origin: process.env.CORS_URL,
-  credentials: true,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 app.use(express.json());
@@ -62,6 +73,7 @@ app.use('/api/friend-requests', friendreqRoutes);
 app.use('/api/journal', closecircleRoutes);
 app.use('/api/myprofile', myprofileRoutes);
 app.use('/api/myprofile/community', communityRoutes);
+app.use('/api/early-access', earlyAccessRoutes);
 
 // Start server
 app.listen(PORT, () => {

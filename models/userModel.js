@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   // Social connections
   closecircle: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // users this user follows
   
-  // Stats
+  // Statsa
   totalLikes: { type: Number, default: 0 },
   totalReads: { type: Number, default: 0 },
   consistency: { type: Number, default: 0 }, // writing % over time
