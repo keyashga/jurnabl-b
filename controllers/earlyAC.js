@@ -1,4 +1,4 @@
-import { EarlyAccessUser } from '../models/EarlyAccessUser.js';
+import { EarlyAccessUser } from '../models/Earlyaccessuser.js';
 
 export const registerUser = async (req, res) => {
   try {
